@@ -1,0 +1,26 @@
+
+
+#body {
+    background-size: cover;
+    background-image: url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpapercave.com%2Fwp%2Fwp2506846.jpg&f=1&nofb=1&ipt=b1a9b1fad9ea2db31f0b1501028d626a10c4a8d2d04ec575fa6d351b91ce3590');
+}
+
+#section1 {
+    justify-self: center;
+    margin-top: 14%;
+    margin-left: 38%;
+}
+
+#boxxy {
+    padding: 10px;
+    width: 500px;
+    height: auto;
+    background: linear-gradient(130deg, #00ff33aa, #ccccffaa);
+    backdrop-filter: blur(2px);
+    border-radius: 20px;
+}
+
+#details {
+    display: flex;
+    flex-direction: column;
+}

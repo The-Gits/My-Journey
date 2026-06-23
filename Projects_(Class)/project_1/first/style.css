@@ -1,0 +1,45 @@
+
+
+html, body {
+    padding: 5px;
+}
+
+* {
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html {
+    background-image: url("https://i.gifer.com/J52.gif");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+section {
+    margin: 15% 40% ;
+    border-radius: 20px;
+    padding: 20px;
+    background-color: #00aadd99;
+    backdrop-filter: blur(10px);
+}
+
+#login_signup {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    align-items: end;
+    border-radius: 10px;
+    background-color: #94bee622;
+    border: none;
+    padding: 15px 15px;
+    margin: 5px 8px;
+}
+
+#submit {
+    border: 2px solid #777;
+    display: block;
+    margin: 5px auto;
+}

@@ -1,0 +1,46 @@
+
+
+#main {
+    background: linear-gradient(to left, #ff5460, #3bb2b4);
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    height: 70px;
+    padding: 0 10px;
+} 
+
+#navBar {
+    display: flex;
+    flex-direction: row;
+    padding: 2px 5px;
+}
+
+#nav {
+    display: flex;
+    flex-direction: row;
+}
+
+
+li {
+    list-style: none;
+    padding: 0px 10px;
+}
+
+#rightBar {
+    display: flex;
+    flex-direction: row;
+    margin-left: 10px;
+    margin-right: auto;
+}
+
+/*
+#background {
+    position: fixed;
+    z-index: -1;
+}
+
+<div id="background">
+                        <img src="icon.png" alt="background">
+                    </div> */
