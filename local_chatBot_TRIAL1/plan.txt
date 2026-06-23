@@ -1,0 +1,44 @@
+Check the pieces one by one:
+
+1. Verify Ollama itself works
+- run `/usr/bin/ollama --version`
+- run `ollama list` and confirm your custom model name is listed
+
+2. Test the model directly in terminal
+- `ollama run <model-name> --prompt "Hello"`
+- if that produces no output, the problem is Ollama/model, not VS Code
+
+3. If you want VS Code to use the Ollama REST API, start the server
+- `ollama serve --port 11434`
+- or if your version uses a different command, check `ollama --help` for the API/server command
+- then verify with `curl http://127.0.0.1:11434/v1/models`
+
+4. Check your VS Code settings
+- `"ollama.path": "/usr/bin/ollama"`
+- `"ollama.model": "<exact-model-name-from-ollama-list>"`
+- `"ollama.serverUrl": "http://127.0.0.1:11434"`
+
+5. If the terminal test works but VS Code still does not, the likely issue is the extension/server config
+- either run Ollama as a server first
+- or remove `ollama.serverUrl` if the extension is supposed to call the CLI directly
+
+6. If you use a custom llama model
+- verify the name exactly from `ollama list`
+- use that exact name in `ollama.model`
+- test with `ollama run <custom-model> --prompt "Test"`
+
+If after these steps the model works in terminal but not in VS Code, the fix is usually:
+- make sure `ollama serve` is running
+- make sure `ollama.serverUrl` points to the running port
+- make sure the model name matches exactly
+
+If the model does not answer in the terminal, fix the Ollama installation/model first before troubleshooting VS Code.
+
+7. Uncensored/custom model not appearing
+- verify the model shows in Ollama: run `ollama list` and `ollama run <exact-model-name> --prompt "Hello"`
+- if the CLI run works but VS Code doesn't, check the Ollama REST API list: start `ollama serve --port 11434` and `curl http://127.0.0.1:11434/v1/models` — confirm the model is returned
+- confirm the exact model name in VS Code settings matches the Ollama name (`"ollama.model": "<exact-model-name>"`)
+- check VS Code extension behavior: open Help → Toggle Developer Tools → Console for errors and Output panel → select the Ollama/extension log
+- some extensions filter or only support certain model types/metadata; review the extension README/settings for model restrictions or whitelist rules
+- if the extension uses the CLI instead of the server, remove `ollama.serverUrl` so it calls the local binary directly, or conversely ensure `ollama.serve` is running if using server mode
+- restart Ollama and VS Code after changing config; if still missing, reinstall the model or consult the extension repo/issues for compatibility notesz

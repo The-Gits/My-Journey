@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantumTrade - Advanced Trading Bot & Analytics</title>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Style Sheet -->
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- TradingView widget script -->
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+</head>
+<body>
+    <div class="glass-bg"></div>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="logo">
+                <i class="fa-solid fa-circle-nodes logo-icon"></i>
+                <div class="logo-text">
+                    <h1>QuantumTrade</h1>
+                    <span>ALGORITHMIC ENGINE</span>
+                </div>
+            </div>
+            <div class="header-status">
+                <div class="status-pill active">
+                    <span class="pulse-dot"></span>
+                    <span class="status-label">Bot Live</span>
+                </div>
+                <div class="symbol-display">
+                    <span class="active-label">Active Symbol:</span>
+                    <strong id="header-symbol">BTCUSDT</strong>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <main class="dashboard-grid">
+            <!-- Left Panel: Controls & Strategies -->
+            <section class="panel glass-panel controls-panel">
+                <h2 class="panel-title"><i class="fa-solid fa-sliders"></i> Configuration</h2>
+                
+                <!-- Symbol & Timeframe Selectors -->
+                <div class="control-group">
+                    <label for="symbol-select"><i class="fa-solid fa-coins"></i> Market Symbol</label>
+                    <select id="symbol-select" class="custom-select">
+                        <!-- Populated by JS -->
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="timeframe-select"><i class="fa-regular fa-clock"></i> Timeframe</label>
+                    <select id="timeframe-select" class="custom-select">
+                        <option value="1">1 Minute</option>
+                        <option value="5">5 Minutes</option>
+                        <option value="15">15 Minutes</option>
+                        <option value="60">1 Hour</option>
+                        <option value="240">4 Hours</option>
+                        <option value="D" selected>Daily</option>
+                        <option value="W">Weekly</option>
+                    </select>
+                </div>
+
+                <hr class="panel-divider">
+
+                <h2 class="panel-title"><i class="fa-solid fa-brain"></i> Active Strategies</h2>
+                
+                <!-- Strategy Switches -->
+                <div class="strategy-list">
+                    <div class="strategy-item">
+                        <div class="strategy-info">
+                            <span class="strategy-name">SMA Crossover</span>
+                            <span class="strategy-desc">SMA 20/50 Golden Cross signal indicator</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="strat-sma" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="strategy-item">
+                        <div class="strategy-info">
+                            <span class="strategy-name">RSI Oscillator</span>
+                            <span class="strategy-desc">Overbought (>70) & Oversold (<30)</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="strat-rsi" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="strategy-item">
+                        <div class="strategy-info">
+                            <span class="strategy-name">MACD Momentum</span>
+                            <span class="strategy-desc">Moving Average Convergence Divergence</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="strat-macd">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Center Panel: The TradingView Chart -->
+            <section class="panel glass-panel chart-panel">
+                <div class="chart-header">
+                    <h2 class="panel-title"><i class="fa-solid fa-chart-candlestick"></i> Market Chart</h2>
+                    <div class="chart-actions">
+                        <button id="refresh-chart-btn" class="icon-btn" title="Reload Widget"><i class="fa-solid fa-arrows-rotate"></i></button>
+                    </div>
+                </div>
+                <!-- TradingView Container -->
+                <div class="chart-container-wrapper">
+                    <div id="tradingview_chart_container"></div>
+                </div>
+            </section>
+
+            <!-- Right Panel: Prediction Bot & Indicators -->
+            <section class="panel glass-panel prediction-panel">
+                <h2 class="panel-title"><i class="fa-solid fa-bolt"></i> AI Prediction Engine</h2>
+                
+                <div class="prediction-box">
+                    <div class="prediction-main">
+                        <span class="pred-label">PROJECTED TREND</span>
+                        <div id="pred-direction" class="pred-direction UP">
+                            <i class="fa-solid fa-arrow-trend-up"></i> <span id="pred-direction-text">BULLISH</span>
+                        </div>
+                    </div>
+                    <div class="prediction-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Confidence</span>
+                            <strong id="pred-confidence">--%</strong>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Target Price</span>
+                            <strong id="pred-target">$0.00</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="realtime-data-metrics">
+                    <div class="metric-row">
+                        <span>Current Market Price</span>
+                        <strong id="metric-price">$0.00</strong>
+                    </div>
+                    <div class="metric-row">
+                        <span>Relative Strength Index (RSI)</span>
+                        <strong id="metric-rsi">--</strong>
+                    </div>
+                    <div class="metric-row">
+                        <span>SMA 20 Period</span>
+                        <strong id="metric-sma">--</strong>
+                    </div>
+                </div>
+
+                <button id="run-prediction-btn" class="primary-btn">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Execute Prediction Analysis
+                </button>
+
+                <hr class="panel-divider">
+
+                <h2 class="panel-title"><i class="fa-solid fa-tower-broadcast"></i> Webhook Endpoint</h2>
+                
+                <!-- Webhook Manager -->
+                <div class="webhook-manager">
+                    <p class="section-desc">Broadcast bot trade alerts directly to external URLs.</p>
+                    <div class="webhook-input-group">
+                        <input type="url" id="webhook-url-input" placeholder="https://api.yourdomain.com/alert" class="custom-input">
+                        <button id="register-webhook-btn" class="secondary-btn">Add</button>
+                    </div>
+                    <ul id="webhook-list" class="webhook-list-items">
+                        <!-- Populated by JS -->
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Bottom Full Panel: Logs & Alert Management -->
+            <section class="panel glass-panel logs-panel">
+                <div class="logs-header">
+                    <h2 class="panel-title"><i class="fa-solid fa-clock-rotate-left"></i> Peak & Valley Alert Logs</h2>
+                    <div class="alert-triggers">
+                        <button id="mock-peak-btn" class="action-btn peak-alert-btn"><i class="fa-solid fa-angles-up"></i> Trigger Mock Peak</button>
+                        <button id="mock-valley-btn" class="action-btn valley-alert-btn"><i class="fa-solid fa-angles-down"></i> Trigger Mock Valley</button>
+                    </div>
+                </div>
+                <div class="logs-container" id="logs-container">
+                    <!-- Logs populated here -->
+                    <div class="empty-logs">No alert logs captured yet. Trigger predictions or mock alerts to start.</div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast-notification hidden">
+        <i class="fa-solid fa-bell"></i>
+        <div class="toast-content">
+            <span class="toast-title">Notification</span>
+            <span id="toast-message" class="toast-body">Message contents...</span>
+        </div>
+    </div>
+
+    <!-- Main Javascript -->
+    <script src="/static/script.js"></script>
+</body>
+</html>
